@@ -280,7 +280,8 @@
 
         let draggedCard = null;
         let isPinching = false;
-        const PINCH_THRESHOLD = 0.08; 
+        // ขยายระยะจีบนิ้วให้ง่ายขึ้นสำหรับจอ iPad
+        const PINCH_THRESHOLD = 0.12; 
 
         // ระบบสร้างเสียง
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -411,7 +412,7 @@
                 },
                 width: 640,
                 height: 480,
-                facingMode: "user" // <--- ตรงนี้คือจุดที่ปรับเปลี่ยนเพื่อให้บังคับใช้กล้องหน้า
+                facingMode: "user" 
             });
 
             await camera.start();
@@ -426,10 +427,12 @@
         function attemptGrab(x, y) {
             const cards = document.querySelectorAll('.number-card');
             const sortedCards = Array.from(cards).sort((a, b) => parseInt(b.style.zIndex || 0) - parseInt(a.style.zIndex || 0));
+            // ขยายพื้นที่การหยิบ (Hitbox) ให้ใหญ่กว่าตัวการ์ด 40px เผื่อจิ้มพลาด
+            const margin = 40; 
 
             for (let card of sortedCards) {
                 const rect = card.getBoundingClientRect();
-                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                if (x >= rect.left - margin && x <= rect.right + margin && y >= rect.top - margin && y <= rect.bottom + margin) {
                     draggedCard = card;
                     draggedCard.classList.remove('snap-back');
                     draggedCard.classList.add('dragging');
@@ -455,7 +458,8 @@
                 const slotCenterY = rect.top + rect.height / 2;
                 const distance = Math.sqrt(Math.pow(x - slotCenterX, 2) + Math.pow(y - slotCenterY, 2));
 
-                if (distance < 100 && distance < minDistance && playerAnswer[index] === null) {
+                // ขยายระยะ Hover (แสงสว่างนำทาง) 
+                if (distance < 150 && distance < minDistance && playerAnswer[index] === null) {
                     minDistance = distance;
                     closestSlot = slot;
                 }
@@ -486,7 +490,8 @@
                 const slotCenterY = rect.top + rect.height / 2;
                 const distance = Math.sqrt(Math.pow(x - slotCenterX, 2) + Math.pow(y - slotCenterY, 2));
 
-                if (distance < 120 && distance < minDistance) {
+                // ขยายระยะแม่เหล็กดูดเข้าช่อง เป็น 180px ให้เข้าล็อกง่ายที่สุด
+                if (distance < 180 && distance < minDistance) {
                     minDistance = distance;
                     closestSlotIndex = index;
                 }

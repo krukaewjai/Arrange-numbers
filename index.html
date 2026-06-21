@@ -16,7 +16,7 @@
             padding: 0;
             font-family: 'Bai Jamjuree', sans-serif;
             overflow: hidden;
-            background-color: #222; /* พื้นหลังสีดำ เพื่อไม่ให้กวนกล้อง AR */
+            background-color: #222; 
             touch-action: none; 
         }
 
@@ -32,14 +32,12 @@
             display: none;
         }
 
-        /* ---------------- รูปภาพพื้นหลังหน้า Login ---------------- */
         #login-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* เปลี่ยนลิงก์ URL ในวงเล็บเป็นรูปภาพ 16:9 ของคุณ */
             background: url('https://lh5.googleusercontent.com/d/1ggBWsYQjml1FA9Lr5_YKwMOpO2YpBQu7') center center no-repeat;
             background-size: cover; 
             z-index: 0;
@@ -343,7 +341,7 @@
             initAudio();
 
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('login-background').style.display = 'none'; // ซ่อนภาพพื้นหลัง
+            document.getElementById('login-background').style.display = 'none'; 
             document.getElementById('loading-indicator').style.display = 'block';
 
             await setupMediaPipe();
@@ -413,7 +411,7 @@
                 },
                 width: 640,
                 height: 480,
-                facingMode: "environment"
+                facingMode: "user" // <--- ตรงนี้คือจุดที่ปรับเปลี่ยนเพื่อให้บังคับใช้กล้องหน้า
             });
 
             await camera.start();
